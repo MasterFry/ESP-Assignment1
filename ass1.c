@@ -93,6 +93,13 @@ int main() {
 }
 
 
+//-----------------------------------------------------------------------------
+///
+/// This function reads in all the remaining characters after the last input
+///
+/// @return the count of characters (including '\n', excluding ' ') that have
+///         been red, returns 0 if EOF has been reached.
+//
 int clearInput()
 {
   char c;
@@ -100,16 +107,19 @@ int clearInput()
 
   do
   {
+    // Check if EOF has been reached or not
     if(scanf("%c", &c) < 0)
     {
       return 0;
     }
 
+    // Check if the character is a space character, increment counter if not
     if(c != ' ')
     {
       ++counter;
     }
 
+    // repeat until the new line character has been red
   } while(c != '\n');
 
   return counter;
