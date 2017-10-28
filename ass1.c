@@ -1,8 +1,13 @@
 //-----------------------------------------------------------------------------
 // ass1.c
 //
-// < TODO Explanation of the program ...>
-// <... May have multiple lines.>
+// < Description of the program. >
+// < The user can input a number of triangles he wants to get checked >
+// < then the user can input the length of every side of every triangle >
+// < the proram now tell the user if each triangle is a triangle or not and >
+// < if it is a triangle it can tell you if it is a isosceles, equilateral >
+// < and/or a right triangle. >
+// < The program manages miss-inputs and asks the user to correct is. >
 //
 // Group: Group 2, study assistant Florian Hager
 //
@@ -11,12 +16,6 @@
 // Tobias Topar 11710538
 //-----------------------------------------------------------------------------
 //
-
-/** TODO Änderungen
- * hab die functionen ein bisschen umsortiert und auch die main funktion an den
- * Anfang gestellt. Dadurch muss man dann auch die anderen funktionen vorwärts
- * deklarieren (line 33 - 43).
- */
 
 
 #include <stdio.h>
@@ -43,33 +42,48 @@ float getTriangleSide(char* textNumber);
 void testIfTriangle(int index, float triangle[TRIANGLE_SIDES]);
 
 
+// This is the main function of the program, it combines all subfunctions
 int main() {
 
+  // a variable to write out 1st 2nd and 3rd
   char* textNumber[TRIANGLE_SIDES] = {"first","second","third"};
 
+  // a variable containing the number of triangles to process,
+  // after gerNumTriangles() was successful
   int numTriangles = getNumTriangles();
 
+  // EOF used to terminate the program
   if (numTriangles == 0)
   {
     return 0;
   }
 
-
+  // this 2D array contains 3 (TRIANGLE_SIDES) variables for a length value
+  // per triangle the program wants to process
   float triangles[numTriangles][TRIANGLE_SIDES];
 
+
+  // goes through every triangle
   for(int i = 0; i < numTriangles;  i++)
   {
+    // goes through every side of every triangle
+    // and saves the value for the length of each side of each triangle
     for (int side = 0; side < TRIANGLE_SIDES; side++)
     {
       triangles[i][side] = getTriangleSide(textNumber[side]);
     }
   }
 
-
+  // a buffer to swap the values of two variables
   float buffer;
 
+  // goes through every triangle
   for(int i = 0; i < numTriangles; i++)
   {
+    // goes through every side of the triangle till the last one
+    // to sort them from lowest to highest,
+    // until it got to the highest (already sorted value)
+    // so it starts form 0 and goes to one less
     for(int run = 1; run < TRIANGLE_SIDES; run++)
     {
       for (int side = 0; side < TRIANGLE_SIDES - run; side++)
@@ -84,11 +98,15 @@ int main() {
     }
   }
 
+  // goes through every triangle (testIfTriangle outputs the results
+  // (i+1) to output the correct number of the triangle
+  // starting from 1 instead of 0
   for(int i = 0; i < numTriangles; i++)
   {
     testIfTriangle(i + 1, triangles[i]);
   }
 
+  // EOF
   return 0;
 }
 
@@ -125,29 +143,40 @@ int clearInput()
   return counter;
 }
 
-
+//-----------------------------------------------------------------------------
+//
+// This function asks the user to input a number of triangles to process
+// and makes sure the user inputs something the program can work with
+//
+// @return the number of triangles to process //TODO wie mach ich das @return fett?
+//
 int getNumTriangles()
 {
   int result, clearedCharacters, numTriangles;
 
+  // until a correct input is made the program stays here
   while(1)
   {
     printf("Please enter the number of triangles to check: ");
 
+    // reads the return of scanf, to know if it matches the criteria
     result = scanf("%i", &numTriangles);
     clearedCharacters = clearInput();
 
+    // used to terminate the Program
     if (result < 0 || clearedCharacters == 0)
     {
       return 0;
     }
 
+    // if the input is valid the function returns the input
     if (clearedCharacters == 1 && result == 1 && numTriangles >= 1 &&
         numTriangles <= UCHAR_MAX)
     {
       return numTriangles;
     }
 
+    // if the input cant be processed
     printf("[ERR] Invalid number of triangles.\n");
   }
 
@@ -169,10 +198,7 @@ int getNumTriangles()
 float getTriangleSide(char* textNumber)
 {
   int result, clearedCharacters;
-  float triangleSide; // TODO hab mir das nochmal genauer angeschaut wie das mit FLT_MAX und float so is.
-  // Wenn du einen float wert hast der FLT_MAX überschreitet bekommt er einfach den wert "inf" was keine
-  // Zahl ist sonder ein error mehr oder weniger. Wenn man "inf" > FLT_MAX vergleicht gibt das den wert 1
-  // also wahr zurück. Deswegen kann man auch einfach float dafür verwenden und braucht keinen double
+  float triangleSide;
 
   // This loop will run until the user has entered a valid side length or the
   // user has stopped the program (e.g. by pressing Ctrl+D)
