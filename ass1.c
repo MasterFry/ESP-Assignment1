@@ -1,13 +1,12 @@
 //-----------------------------------------------------------------------------
 // ass1.c
 //
-// < Description of the program. >
-// < The user can input a number of triangles he wants to get checked >
-// < then the user can input the length of every side of every triangle >
-// < the proram now tell the user if each triangle is a triangle or not and >
-// < if it is a triangle it can tell you if it is a isosceles, equilateral >
-// < and/or a right triangle. >
-// < The program manages miss-inputs and asks the user to correct is. >
+// The user can input a number of triangles he wants to get checked
+// then the user can input the length of every side of every triangle
+// the program now tells the user if each triangle is a triangle or not and
+// if it is a triangle it can tell you if it is an equilateral, isosceles
+// and/or a right triangle.
+// The program handles invalid inputs and asks the user to correct is.
 //
 // Group: Group 2, study assistant Florian Hager
 //
@@ -31,11 +30,14 @@
 // This function clears the remaining characters in the input buffer
 int clearInput();
 
+
 // This function is used to retrieve the number of triangles to read
 int getNumTriangles();
 
+
 // This function is used to read the value of one side of a single triangle
 float getTriangleSide(char* textNumber);
+
 
 // This function is used to test whether the given sides can form a triangle
 // or not and if it is a special triangle
@@ -45,7 +47,7 @@ void testIfTriangle(int index, float triangle[TRIANGLE_SIDES]);
 // This is the main function of the program, it combines all subfunctions
 int main() {
 
-  // a variable to write out 1st 2nd and 3rd
+  // an array to write out 1st 2nd and 3rd
   char* textNumber[TRIANGLE_SIDES] = {"first","second","third"};
 
   // a variable containing the number of triangles to process,
@@ -61,7 +63,6 @@ int main() {
   // this 2D array contains 3 (TRIANGLE_SIDES) variables for a length value
   // per triangle the program wants to process
   float triangles[numTriangles][TRIANGLE_SIDES];
-
 
   // goes through every triangle
   for(int i = 0; i < numTriangles;  i++)
@@ -80,10 +81,9 @@ int main() {
   // goes through every triangle
   for(int i = 0; i < numTriangles; i++)
   {
-    // goes through every side of the triangle till the last one
-    // to sort them from lowest to highest,
-    // until it got to the highest (already sorted value)
-    // so it starts form 0 and goes to one less
+    // run through the array for each triangle side
+    // compare two sides, swap them if the first is greater then the second
+    // repeat the process until the sides of the triangle are sorted
     for(int run = 1; run < TRIANGLE_SIDES; run++)
     {
       for (int side = 0; side < TRIANGLE_SIDES - run; side++)
@@ -106,7 +106,6 @@ int main() {
     testIfTriangle(i + 1, triangles[i]);
   }
 
-  // EOF
   return 0;
 }
 
@@ -143,12 +142,13 @@ int clearInput()
   return counter;
 }
 
+
 //-----------------------------------------------------------------------------
-//
-// This function asks the user to input a number of triangles to process
-// and makes sure the user inputs something the program can work with
-//
-// @return the number of triangles to process //TODO wie mach ich das @return fett?
+///
+/// This function asks the user to input a number of triangles to process
+/// and makes sure the user enters something the program can work with
+///
+/// @return the number of triangles to process
 //
 int getNumTriangles()
 {
